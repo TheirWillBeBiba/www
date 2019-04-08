@@ -1,0 +1,18 @@
+$bd_connect = mysql_connect('localhost','root','');
+	if (!mysql_select_db('Students_SAKHIEPI',$bd_connect)) {
+		echo '<font color="red">Невозможно открыть БД</font>';
+		exit;
+	}
+	
+	if ($_POST['login']) {
+		$result = mysql_query("SELECT * FROM `students` WHERE `fam`='".$_POST['login']."'");
+		if (mysql_num_rows($result)) {//проверка, что выбраны строки в базе данных больше 0
+			$row = mysql_fetch_assoc($result);//ассоциативный массив построчно из БД
+			if ($_POST['pass'] == $row['password']) {
+				// данные пользователя
+				echo 'Праздравляем '.$row['name'].' '.$row['name-2'].' - вы молодец!';
+				exit;
+				
+			} else $error['pass'] = '<font color="red">неверный пароль!</font>'; // неверный пароль - это ассоц массив с проверкой на наличие одной из ошибок
+		} else $error['login'] = '<font color="red">неверный логин!</font>'; // неверный логин
+	}
