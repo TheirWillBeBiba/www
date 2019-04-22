@@ -4,6 +4,24 @@ ini_set("display_errors", 1);
 error_reporting(-1);
 require_once 'config.php';
 require_once 'function.php';
+
+if( isset($_POST['test']) ){
+	$test = (int)$_POST['test'];
+	unset($_POST['test']);
+	$result = get_correct_answers($test);
+	print_r($_POST);
+	print_r($result);
+	if( !is_array($result) ) exit('PILIGRIM GOVNO');
+	// dannie testa
+	$test_all_data = get_test_data($test);
+	// 1 - массив вопрос/ответы, 2 - правильные ответы, 3 - ответы пользователя
+	$test_all_data_result = get_test_data_result($test_all_data, $result);
+	// print_r($_POST);
+	// print_r($result);
+	print_r($test_all_data_result);
+	die;
+}
+
 $howto = get_howto();
  
 	if (isset($_GET['test']) )
